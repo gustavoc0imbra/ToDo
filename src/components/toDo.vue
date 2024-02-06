@@ -8,8 +8,7 @@ export default {
         }
     },
     methods: {
-        submitTodo($event) {
-            $event.preventDefault();
+        submitTodo() {
             this.todos.push(this.todo)
             this.todo = ''
             console.log(this.todos)
@@ -28,45 +27,50 @@ export default {
 <template>
     <div class="container">
         <form class="form-container">
-            <input type="text" class="inputTxt" v-model="todo" placeholder="Digite a tarefa a ser realizada">
+            <input type="text" class="form-control inputTxt" v-model="todo" placeholder="Digite a tarefa a ser realizada">
             &nbsp;
             <div class="buttons-container">
-                <button @click="cancelTodo()">Cancelar</button>
-                &nbsp;
-                <button @click="submitTodo($event)">Salvar</button>
+   		<button class="btn btn-danger" @click="cancelTodo()">Cancelar</button>
+                &nbsp;       
+		<button class="btn btn-success" @click.prevent="submitTodo($event)">Salvar</button>
             </div>
         </form>
 
         <br>
         <h2>A Fazer</h2>
-        <table v-show="todos.length > 0" class="table-container">
-            <thead>
-                <tr class="table-h-item">
-                    <td><b>Ordem</b></td>
-                    <td><b>Descrição</b></td>
-                </tr>
-            </thead>
-            <tbody v-for="(todo, index) in todos">
-                <tr class="table-b-item">
-                    <td>{{ index }}</td>
-                    <td>{{ todo }}</td>
-                    <button @click="removeTodo(index)">Remover</button>
-                    &nbsp;
-                    <button @click="finishTodo(todo, index)">Feito</button>
-                </tr>
-            </tbody>
-        </table>
+        <div>
+            <table v-show="todos.length > 0" class="table table-responsive table-dark align-middle text-center">
+                <thead>
+                    <tr class="table table-dark align-middle">
+                        <td><b>Ordem</b></td>
+                        <td><b>Descrição</b></td>
+                        <td>Excluir</td>
+                        <td>Feito</td>
+                    </tr>
+                </thead>
+                <tbody class="table table-group-divider align-middle" v-for="(todo, index) in todos">
+                    <tr class="table table-dark align-middle">
+                        <td>{{ index }}</td>
+                        <td>{{ todo }}</td>
+                        <button class="btn btn-danger" @click="removeTodo(index)"><span class="material-symbols-outlined bg-danger">delete</span></button>
+                        &nbsp;
+                        <button class="btn btn-success" @click="finishTodo(todo, index)"><span class="material-symbols-outlined bg-success">done</span></button>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
         <hr>
         <h2>Feito</h2>
-        <table v-show="todosCompleted.length > 0" class="table-container">
+        <table v-show="todosCompleted.length > 0" class="table">
             <thead>
-                <tr class="table-h-item">
+                <tr class="table table-dark">
                     <td><b>Ordem</b></td>
                     <td><b>Descrição</b></td>
                 </tr>
             </thead>
             <tbody v-for="(todo, index) in todosCompleted">
-                <tr class="table-b-item">
+                <tr class="table table-dark">
                     <td>{{ index }}</td>
                     <td>{{ todo }}</td>
                 </tr>
